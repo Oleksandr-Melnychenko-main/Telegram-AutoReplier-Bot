@@ -13,13 +13,6 @@ if not TOKEN:
     exit(1)
 
 
-#TODO: add logger things and db later
-# logging.basicConfig(
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-#     level=logging.INFO
-# )
-
-
 if __name__ == '__main__':
     application = ApplicationBuilder().token(TOKEN).build()
     
@@ -27,5 +20,5 @@ if __name__ == '__main__':
         application.add_handler(handler)
 
     print("Bot's running")
-    application.run_polling()
+    application.run_polling(drop_pending_updates=True)
     

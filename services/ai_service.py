@@ -1,8 +1,7 @@
 from pathlib import Path
 from os import getenv
 import logging
-from google import genai
-from google.genai.types import GenerateContentConfig
+from openai import OpenAI
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -17,28 +16,29 @@ def load_persona() -> str:
 MY_PERSONA_PROMPT = load_persona()
 
 
-api_key = getenv("GEMINI_API_TOKEN")
-client = genai.Client(api_key=api_key)
+api_key = getenv("AI_API_TOKEN")
+client = OpenAI(api_key=api_key)
+
 
 def generate_ai_response(user_message: str) -> str:
     if not user_message:
-        user_message = "Hello!"
+        user_message = "Чо малчім?"
 
     try:
-        response = client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=user_message,
-            config=GenerateContentConfig(
-                system_instruction=MY_PERSONA_PROMPT,
-                temperature=0.7
-            )
+        response = client.chat.completions.create(
+            model='gpt-4o-mini',
+            messages=[
+                {"role": "system", "content": MY_PERSONA_PROMPT},
+            ],
+            temperature=0.7
         )
 
-        if not response.text: 
+        ai_text = response.choices[0].message.content
+
+        if not ai_text: 
             return "Атебісь ат мєня, я вже заєбався відповідати"
         
-        return response.text
-        
+        return ai_text
         
     except Exception as e:
         error_msg = str(e)
@@ -46,9 +46,9 @@ def generate_ai_response(user_message: str) -> str:
         if "503" in error_msg or "UNAVAILABLE" in error_msg:
             return "Оскільки є мільйони інших дибілів, які юзають APIшку ШІшки для всякої хуйні, у гугла перегрілися серваки, тому запхайте свої питання собі поглибше"
             
-        elif "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
+        elif "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg or "Rate limit" in error_msg:
             return "Дєвачкі, я нє рєзінавий, ліміт питань так то існує, тому або ждіть або йдіть наху"
         
-        logging.error(f"Gemini API Error: {e}")
+        logging.error(f"OpenAI API Error: {e}")
         return "Атебісь ат мєня, я вже заєбався відповідати"
     
