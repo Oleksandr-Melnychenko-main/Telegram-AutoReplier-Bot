@@ -9,7 +9,7 @@ from handlers import all_handlers
 
 TOKEN = getenv("TELEGRAM_BOT_TOKEN")
 if not TOKEN: 
-    print("No token has been found") #TODO: add logger here later
+    print("No token has been found") 
     exit(1)
 
 
