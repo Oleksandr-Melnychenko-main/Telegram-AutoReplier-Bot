@@ -3,14 +3,15 @@ from os import getenv
 from sys import exit
 from dotenv import load_dotenv
 from telegram.ext import ApplicationBuilder
-
+load_dotenv()
 from handlers import all_handlers
 
-load_dotenv()
+
 TOKEN = getenv("TELEGRAM_BOT_TOKEN")
 if not TOKEN: 
     print("No token has been found") #TODO: add logger here later
     exit(1)
+
 
 #TODO: add logger things and db later
 # logging.basicConfig(
@@ -27,3 +28,4 @@ if __name__ == '__main__':
 
     print("Bot's running")
     application.run_polling()
+    
