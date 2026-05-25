@@ -14,7 +14,7 @@ async def react_to_mention(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     cleaned_query = message_text.replace(bot_username, "").strip()
     if not cleaned_query:
-        cleaned_query = "Хулі малчім?"
+        cleaned_query = "No message has been found"
         
     ai_reply = generate_ai_response(cleaned_query)
 
@@ -36,7 +36,7 @@ async def react_to_group_interaction(update: Update, context: ContextTypes.DEFAU
 
     cleaned_query = message_text.replace(bot_username, "").strip()  
     if not cleaned_query and is_reply_to_bot:
-        cleaned_query = "Хулі малчім?"
+        cleaned_query = "No message has been found"
 
     ai_reply = generate_ai_response(cleaned_query)
 
