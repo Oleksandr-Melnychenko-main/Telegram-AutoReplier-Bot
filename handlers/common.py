@@ -7,14 +7,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     
     await update.message.reply_text(
-        "Проснувся. Нагадую, що інфу, яку передає цей бот за допомогою пайтон модуля google.genai можуть бачити сторонні (хоч і анонімізовану)"
+        "Bot has been started. Information, this bot passes, can be seen by other people if free API key is used"
         )
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message:
         return
     
-    await update.message.reply_text("Щоб цей бот вам відповів просто тегніть його у повідомленні")
+    await update.message.reply_text("To make the bot reply just teg him in a message")
 
 
 common_handlers = [
