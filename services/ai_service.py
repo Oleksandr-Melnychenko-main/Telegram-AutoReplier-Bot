@@ -36,7 +36,7 @@ def generate_ai_response(user_message: str) -> str:
         ai_text = response.choices[0].message.content
 
         if not ai_text: 
-            return "Атебісь ат мєня, я вже заєбався відповідати"
+            return "API didn't return any message"
         
         return ai_text
         
@@ -44,11 +44,11 @@ def generate_ai_response(user_message: str) -> str:
         error_msg = str(e)
 
         if "503" in error_msg or "UNAVAILABLE" in error_msg:
-            return "Оскільки є мільйони інших дибілів, які юзають APIшку ШІшки для всякої хуйні, у гугла перегрілися серваки, тому запхайте свої питання собі поглибше"
+            return "Due to high load on API servers message could not be passed"
             
         elif "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg or "Rate limit" in error_msg:
-            return "Дєвачкі, я нє рєзінавий, ліміт питань так то існує, тому або ждіть або йдіть наху"
+            return "Tokens are depleted"
         
         logging.error(f"OpenAI API Error: {e}")
-        return "Атебісь ат мєня, я вже заєбався відповідати"
+        return "No message has been found"
     
